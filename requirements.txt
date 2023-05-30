@@ -1,0 +1,9 @@
+langchain
+pinecone-client 
+python-dotenv
+openai
+tiktoken
+streamlit
+python-docx
+azure-core
+langflow
