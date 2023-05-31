@@ -51,11 +51,13 @@ with st.sidebar:
     
     instructions = st.text_area('Instructions for Simon to answer the inquiry', 
                                 value=
-f'''You are a helpful Strata legal expert in Western Australia answering questions about the "Strata Titles Act" from a citizen. 
+f'''You are a helpful Strata legal expert in Western Australia answering questions about the "Strata Titles Act 1985" from a lot owner.
 
-Provide a detailed answer only using the information from the legislation provided below.
+Start the answer with "An owner should always refer to their bylaws and strata plan in conjenction with the legislation".
 
-Do not make up answers. If you do not know say "I do not know"
+Provide a detailed answer using the information from the legislation provided below. List relevant sections of the act.  Ignore section 153.
+
+Do not make up answers. If you do not know say "I do not know".
 ''',
                                 height = 300, 
                                 help='This is prepended to the inquiry and provides instructions on how to answer the inqueiry. Try chaning this to get a better result.')
