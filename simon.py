@@ -3,9 +3,10 @@ import pinecone
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks import get_openai_callback
 from langchain.callbacks.base import BaseCallbackHandler
-
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chains import RetrievalQA
+from langchain.prompts import PromptTemplate
+
 from langchain.vectorstores import Pinecone
 
 import streamlit as st
@@ -17,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv() #get API keys
 
 @st.cache_resource
-def makeBot(k, streaming, namespace):
+def makeBot(prompt_template, k, streaming, namespace):
     '''Set up connection to db and create the Qretrieval object
        only needs to be run once.'''
 
@@ -29,10 +30,14 @@ def makeBot(k, streaming, namespace):
     db = Pinecone.from_existing_index(os.environ.get('INDEX'), OpenAIEmbeddings())
     retriever = db.as_retriever(search_type="similarity", search_kwargs={"k":k, 'namespace': namespace})
 
+    PROMPT = PromptTemplate(template=prompt_template, 
+                            input_variables=["context", "question"])
+
     qa = RetrievalQA.from_chain_type(
                         llm=ChatOpenAI(temperature=0, streaming= (streaming == 'Yes')), #, uses 'gpt-3.5-turbo' which is cheaper and better 
                         chain_type="stuff", 
                         retriever=retriever, 
+                        chain_type_kwargs={"prompt": PROMPT}, 
                         return_source_documents=True)
     return qa
 
@@ -42,7 +47,7 @@ st.caption("Use the inputs in the sidebar to experiment with the playground sett
 with st.sidebar:
     
     namespace = 'SCA_H5'
-    k = st.number_input("How many Articles should Simon consult", value= 3, 
+    k = st.number_input("How many Articles should Simon consult", value= 4, 
                         help="This determines the number of similar article chunks to use in the prompt. Increasing this adds to the knowledge available but increases the cost/time to answer the inquiry")
 
     streaming = st.radio("Stream answers?", ("Yes", "No"),horizontal=True, index=0,
@@ -51,18 +56,23 @@ with st.sidebar:
     
     instructions = st.text_area('Instructions for Simon to answer the inquiry', 
                                 value=
-f'''You are a helpful Strata legal expert in Western Australia answering questions about the "Strata Titles Act 1985" from a lot owner.
+'''You are a helpful Strata legal expert in Western Australia answering questions about the "Strata Titles Act 1985" from a lot owner.
 
 Start the answer with "An owner should always refer to their bylaws and strata plan in conjenction with the legislation".
 
-Provide a detailed answer using the information from the legislation provided below. List relevant sections of the act.  Ignore section 153.
+Provide a detailed answer using the information from the legislation provided below. List relevant sections of the act. 
 
 Do not make up answers. If you do not know say "I do not know".
+
+{context}
+
+Question: {question}
 ''',
                                 height = 300, 
                                 help='This is prepended to the inquiry and provides instructions on how to answer the inqueiry. Try chaning this to get a better result.')
-    
-qa=makeBot(k, streaming, namespace) 
+
+
+qa=makeBot(instructions, k, streaming, namespace) 
 inquiry = st.text_area(f"Hi, I'm Simon, the Strata Chatbot? What is your inquiry?",
                        value="")
 class SimpleStreamlitCallbackHandler(BaseCallbackHandler):
@@ -79,7 +89,7 @@ class SimpleStreamlitCallbackHandler(BaseCallbackHandler):
 
 if inquiry:
     with get_openai_callback() as costs:
-        result = qa({"query": f'{instructions} \n\n {inquiry}'}, callbacks=[SimpleStreamlitCallbackHandler()]) 
+        result = qa(inquiry, callbacks=[SimpleStreamlitCallbackHandler()]) 
         #streaming callback handler breaks cost reporting
         if streaming == "No": 
             st.write(result['result']) 
