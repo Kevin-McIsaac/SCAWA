@@ -6,3 +6,5 @@ tiktoken
 streamlit
 python-docx
 azure-core
+pypdf
+beautifulsoup4

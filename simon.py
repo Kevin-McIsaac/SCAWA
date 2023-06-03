@@ -73,7 +73,6 @@ st.caption("Use the inputs in the sidebar to experiment with the playground sett
 with st.form("chat"):           
     with st.sidebar:
         
-        namespace = 'SCA_H5'
         k = st.number_input("How many Articles should Simon consult", value= 4, 
                             help="This determines the number of similar article chunks to use in the prompt. Increasing this adds to the knowledge available but increases the cost/time to answer the inquiry")
 
@@ -87,7 +86,7 @@ with st.form("chat"):
                                     help='This is prepended to the inquiry and provides instructions on how to answer the inqueiry. Try chaning this to get a better result.')
 
 
-    qa=makeBot(instructions, k, streaming, namespace) 
+    qa=makeBot(instructions, k, streaming, 'SCA_H5') 
     inquiry = st.text_area(f"Hi, I'm Simon, the Strata Chatbot? What is your inquiry?",
                         value="")
     submitted = st.form_submit_button("Submit")
