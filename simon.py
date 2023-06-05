@@ -116,4 +116,4 @@ however caused (including through negligence), which may be directly or indirect
 of this document.
 </font>'''
 
-st.markdown(FOOTER)
+st.markdown(FOOTER, unsafe_allow_html=True)
