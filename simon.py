@@ -101,17 +101,44 @@ if submitted:
         st.caption(f":blue[Cost {costs.total_cost*100 : 0.2f} US cents. Tokens {costs.total_tokens :,} = {costs.prompt_tokens :,} + {costs.completion_tokens :,}]")
 
     for source in result["source_documents"]: 
-        st.markdown(f'''<details><summary><a href="{source.metadata.get('URL')}" target="_blank">{source.metadata.get('source')}</a> {source.metadata.get('title')}</summary>'''
+        st.markdown(f'''<details><summary><a href="{source.metadata.get('URL')}" target="_blank">{source.metadata.get('source')}</a>: {source.metadata.get('title')}</summary>'''
                     f'''{source.page_content} </details>''', 
                     unsafe_allow_html=True) 
         
 
-st.info(
-    '''This webpage provides a basic understanding of strata title living. It is general information only 
-    and is not legal advice on strata titles. You should refer to the legislation available on the WA government website
 
-    To the extent permitted by law, we will in no way be liable to you or anyone else for any loss or damage,
-    however caused (including through negligence), which may be directly or indirectly suffered in connection with use
-    of this document.
-    '''
-)
+
+footer="""<style>
+a:link , a:visited{
+color: blue;
+background-color: transparent;
+text-decoration: underline;
+}
+
+a:hover,  a:active {
+color: red;
+background-color: transparent;
+text-decoration: underline;
+}
+
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+background-color: white;
+color: black;
+text-align: center;
+}
+</style>
+<div class="footer">
+    <p> This webpage provides a basic understanding of strata title living. It is general information only 
+        and is not legal advice on strata titles. You should refer to the legislation available on the WA government website. 
+    </p>
+    <p> To the extent permitted by law, we will in no way be liable to you or anyone else for any loss or damage,
+        however caused (including through negligence), which may be directly or indirectly suffered in connection with use
+        of this document.
+    </p>
+</div>
+"""
+st.markdown(footer,unsafe_allow_html=True)
