@@ -101,7 +101,8 @@ if submitted:
         st.caption(f":blue[Cost {costs.total_cost*100 : 0.2f} US cents. Tokens {costs.total_tokens :,} = {costs.prompt_tokens :,} + {costs.completion_tokens :,}]")
 
     for source in result["source_documents"]: 
-        st.markdown(f"<details><summary>{source.metadata.get('title')} </summary>{source.page_content} </details>", 
+        st.markdown(f"<details><summary>{source.metadata.get('title') [source.metadata.get('source')]}"
+                    f"</summary>source.metadata.get('url')\n{source.page_content} </details>", 
                     unsafe_allow_html=True)
         
 
