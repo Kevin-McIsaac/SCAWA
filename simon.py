@@ -106,14 +106,11 @@ if submitted:
                     unsafe_allow_html=True) 
         
 
+    FOOTER='''
+    This webpage provides a basic understanding of strata title living. It is general information only 
+    and is not legal advice on strata titles. You should refer to the legislation available on the WA government website.                                                          
+    To the extent permitted by law, we will in no way be liable to you or anyone else for any loss or damage,
+    however caused (including through negligence), which may be directly or indirectly suffered in connection with use
+    of this document.'''  
 
-
-FOOTER='''<sub>
-This webpage provides a basic understanding of strata title living. It is general information only 
-and is not legal advice on strata titles. You should refer to the legislation available on the WA government website.                                                          
-To the extent permitted by law, we will in no way be liable to you or anyone else for any loss or damage,
-however caused (including through negligence), which may be directly or indirectly suffered in connection with use
-of this document.
-</sub>'''  
-
-st.markdown(FOOTER, unsafe_allow_html=True )
+    st.caption(FOOTER, unsafe_allow_html=True )
