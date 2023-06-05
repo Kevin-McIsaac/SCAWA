@@ -108,36 +108,12 @@ if submitted:
 
 
 
-footer="""<style>
-a:link , a:visited{
-color: blue;
-background-color: transparent;
-text-decoration: underline;
-}
+FOOTER='''
+This webpage provides a basic understanding of strata title living. It is general information only 
+and is not legal advice on strata titles. You should refer to the legislation available on the WA government website. </br>
+To the extent permitted by law, we will in no way be liable to you or anyone else for any loss or damage,
+however caused (including through negligence), which may be directly or indirectly suffered in connection with use
+of this document.
+'''
 
-a:hover,  a:active {
-color: red;
-background-color: transparent;
-text-decoration: underline;
-}
-
-.footer {
-position: fixed;
-left: 0;
-bottom: 0;
-width: 100%;
-background-color: white;
-color: black;
-text-align: center;
-}
-</style>
-<div class="footer">
-    This webpage provides a basic understanding of strata title living. It is general information only 
-        and is not legal advice on strata titles. You should refer to the legislation available on the WA government website. 
-    </ber>
-    To the extent permitted by law, we will in no way be liable to you or anyone else for any loss or damage,
-        however caused (including through negligence), which may be directly or indirectly suffered in connection with use
-        of this document.
-</div>
-"""
-st.markdown(footer,unsafe_allow_html=True)
+st.markdown(FOOTER,unsafe_allow_html=True)
