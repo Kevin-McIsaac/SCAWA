@@ -102,7 +102,7 @@ if submitted:
 
     for source in result["source_documents"]: 
         st.markdown(f'''<details><summary>{source.metadata.get('title')}</summary>'''
-                    f'''<a href="{source.metadata.get('URL')} target="_blank"">{source.metadata.get('source')}</a> '''
+                    f'''<a href="{source.metadata.get('URL')}" target="_blank">{source.metadata.get('source')}</a> '''
                     f'''{source.page_content} </details>''', 
                     unsafe_allow_html=True) 
         
